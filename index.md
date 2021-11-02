@@ -1,4 +1,4 @@
-## AutoDQM ML Tutorial
+# Introduction
 Welcome to the AutoDQM ML user tutorial! The [AutoDQM_ML](https://github.com/AutoDQM/AutoDQM_ML) repository is a toolkit for developing machine learning algorithms to detect anomalies in offline DQM histograms.
 
 With this tool, you can do the following:
@@ -6,7 +6,56 @@ With this tool, you can do the following:
 2. Train machine learning algorithms that can be used for anomaly detection.
 3. Compare the performance of these ML algorithms and statistical tests.
 
-## Fetching Data
+# Setup
+**1. Clone repository**
+```
+git clone https://github.com/AutoDQM/AutoDQM_ML.git
+cd AutoDQM_ML
+```
+**2. Install dependencies**
+
+Dependencies are listed in ```environment.yml```. Install with
+```
+conda env create -f environment.yml
+```
+
+Note: if you are running on `lxplus`, you may run into permissions errors. You can fix this manually by doing:
+```
+chmod 755 -R /afs/cern.ch/user/<first_letter_of_your_user_name>/<your_user_name>/.conda
+```
+and then rerunning the command to create the `conda` env.
+
+Note: if you have already set up your `conda` environment but there have been changes to `environment.yml`, you can update your existing environment with:
+```
+conda env update --file environment.yml --prune
+```
+
+**3. Install autodqm-ml**
+
+**Users** can install with:
+```
+python setup.py install
+```
+**Developers** are suggested to install with:
+```
+pip install -e .
+```
+to avoid rerunning the whole installation every time there is a change.
+
+Once your setup is installed, you can activate your python environment with
+```
+conda activate autodqm-ml
+```
+
+**Note**: `CMSSW` environments can interfere with `conda` environments. Recommended to unset your CMSSW environment (if any) by running
+```
+eval `scram unsetenv -sh`
+```
+before attempting installation and each time before activating the `conda` environment.
+
+# Using the tool
+
+## 1. Fetching Data
 The first step in developing anomaly detection algorithms is fetching the data with which we want to train and assess our algorithms.
 
 The [`scripts/fetch_data.py`](https://github.com/AutoDQM/AutoDQM_ML/blob/main/scripts/fetch_data.py) script can be used to do this. It is essentially a wrapper to the `autodqm_ml.data_prep.data_fetcher.DataFetcher` class. 
@@ -55,14 +104,14 @@ Third, the `--datasets` option should be given a `str` input which is a path to 
 This will find all DQM files for the `SingleMuon` PDs from 2017 and 2018. For 2017/2018 only files with the substring `"UL2017"`/`"UL2018"` will be considered, and for 2017 only era B ("Run2017B") will be considered, while for 2018, only runs `317488` and `317481` will be considered. 
 
 
-## Training ML Algorithms
+## 2. Training ML Algorithms
 TODO
 
-### PCA
+### 2.1 PCA
 TODO
 
-### Autoencoder
+### 2.2 Autoencoder
 TODO
 
-## Assessing Performance of ML Algorithms 
+## 3. Assessing Performance of ML Algorithms 
 TODO
