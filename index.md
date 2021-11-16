@@ -176,7 +176,8 @@ It will give printouts about its current task and progress:
 ```
 INFO     [DataFetcher : extract_data] Loading histograms for pd 'SingleMuon' and year '2018' from  data_fetcher.py:211
          495 total files.
-  1%|▍                                                                                | 3/495 [00:00<01:43,  4.76it/s]```
+  1%|▍                                                                                | 3/495 [00:00<01:43,  4.76it/s]
+```
 And will let us know if it encounters any problematic files (by default, it will just skip these):
 ```
 WARNING  [DataFetcher : load_data] Problem loading file 'root://eoscms.cern.ch//eos/cms/store/grou data_fetcher.py:262
