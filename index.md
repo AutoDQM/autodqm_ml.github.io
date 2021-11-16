@@ -187,6 +187,7 @@ python train.py
     --output_dir "output_withMLAlgos/"
     --algorithm "statistical_tester"
     --tag "stat"
+    --reference "304587"
     --histograms "emtfTrackPhi,emtfTrackEta"
 ```
 As statistical tests do not make reconstructions of the original histogram, this will not add fields like `emtfTrackPhi_reco_stat`, but will still add fields with the results of the statistical test, e.g. `emtfTrackPhi_score_stat`.
@@ -197,6 +198,7 @@ A few options for specifying the details of the algorithms are provided through 
 - `--algorithm` specify a statistical test, PCA, or AutoEncoder
 - `--histograms` specify the list of histograms to train algorithms for (or simply evaluate, in the case of a statistical test)
 - `--n_components` specify the dimensionality of the latent space used for reconstructing histograms (only applicable for ML algorithms)
+- `--reference` specify which run should be used as a reference (only applicable for statistical tests)
 
 In general, however, we will want greater control over the specifics of the algorithms we train. For example, we may want to vary the DNN architecture and training strategy for AutoEncoders. This can be achieved by specifying a `json` file for the `--algorithms` CLI.
 
