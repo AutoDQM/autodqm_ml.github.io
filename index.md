@@ -407,4 +407,4 @@ The script will next make some summary plots:
     - Original vs. reconstructed histograms
 
 Here is the SSE histogram for `emtfTrackPhi`, shown for testing events:
-![SSE Summary Plots](figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_sse_test.pdf)
+![SSE Summary Plots](/autodqm_ml.github.io/figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_sse_test.pdf)
