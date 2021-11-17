@@ -362,5 +362,49 @@ TODO
 ### 2.4 Autoencoders
 TODO
 
-## 3. Assessing Performance of ML Algorithms 
-TODO
+## 3. Assessing Performance of ML Algorithms
+Having trained some ML algorithms to perform anomaly detection, we now want to assess their performance. The `scripts/assess.py` script can make a variety of diagnostic plots and print out useful info towards this.
+
+Picking up from the previous example, we have the results of several anomaly detection algorithms saved in
+```
+tutorial_addMLAlgos/SingleMuon.parquet
+```
+We can make plots for this file with:
+```
+python scripts/assess.py
+    --input_file "tutorial_addMLAlgos/SingleMuon.parquet"
+    --output_dir "tutorail_addMLAlgos/plots/"
+    --histograms "L1T//Run summary/L1TStage2EMTF/emtfTrackPhi"
+    --algorithms "default_pca,default_ae"
+    --debug
+```
+where the CLI for `--histograms` is a comma-separated list of histograms for which to make plots and the CLI for `--algorithms` is a comma-separated list of algorithms to consider. We could also leave `--algorithms` blank, in which case the script would automatically infer the algorithms present in `--input_file` and consider all of them.
+
+The `assess.py` script will first print out some diagnostic info about each histogram and each anomaly detection algorithm for that histogram:
+```
+INFO     [assess.py] For histogram 'L1T//Run summary/L1TStage2EMTF/emtfTrackPhi',      assess.py:118
+         algorithm 'default_pca', the mean +/- std anomaly score is: 8.86e-06 +/-                   
+         1.94e-05.
+INFO     [assess.py] For histogram 'L1T//Run summary/L1TStage2EMTF/emtfTrackPhi',      assess.py:118
+         algorithm 'default_ae', the mean +/- std anomaly score is: 1.44e-05 +/-                    
+         3.17e-05.  
+```
+we can see that the PCA achieves slightly lower reconstruction error than the AutoEncoder. The script will also print out the 5 runs with the highest SSE for each algorithm. For the PCA, the first two are:
+```
+INFO              The runs with the highest anomaly scores are:                        assess.py:120
+INFO              Run number : 305040, Anomaly Score : 3.82e-04                        assess.py:122
+INFO              Run number : 305044, Anomaly Score : 2.70e-04                        assess.py:122
+```
+while for the AutoEncoder, the first two are:
+```
+INFO              The runs with the highest anomaly scores are:                        assess.py:120
+INFO              Run number : 305040, Anomaly Score : 5.17e-04                        assess.py:122
+INFO              Run number : 320007, Anomaly Score : 4.06e-04                        assess.py:122
+```
+
+The script will next make some summary plots:
+    - Histograms of the SSE for each histogram (separate plots for runs used in training/testing)
+    - Original vs. reconstructed histograms
+
+Here is the SSE histogram for `emtfTrackPhi`, shown for testing events:
+![SSE Summary Plots](figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_sse_test.pdf)
