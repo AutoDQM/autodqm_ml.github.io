@@ -430,5 +430,7 @@ The plot is shown below:
 ![Original vs Reconstructed](https://github.com/AutoDQM/autodqm_ml.github.io/blob/gh-pages/figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run305040.png)
 Indeed there is some very spiky behavior in the original histogram -- perhaps the PCA and the AutoEncoder are on to something!
 
+Note that the `assess.py` script could be used to simply make plots of the original histograms by specifying `--algorithms ""` (in fact, if no ML algorithms have been added to the `.parquet` file in question, this is the default behavior).
+
 ### 3.1 ROC curves and AUC
 TODO
