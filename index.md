@@ -407,14 +407,14 @@ The script will next make some summary plots:
     - Original vs. reconstructed histograms
 
 Here is the SSE histogram for `emtfTrackPhi`, shown for testing events:
-![SSE Summary Plots](http://github.com/AutoDQM/autodqm_ml.github.io/blob/gh-pages/figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_sse_test.png)
+![SSE Summary Plots](figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_sse_test.png)
 
 For the plots of original vs. reconstructed histograms, we could supply an argument `--runs` with a comma-separated list of runs to make plots for, e.g.:
 ```
 --runs "305040,320007"
 ```
 If no `--runs` argument is given, the script will randomly pick `N` runs to make plots for. `N` is set to 3 by default and can be set to any number by including the argument `--n_runs <N>`. Since we did not provide the `--runs` argument the first time we ran, the script picked 3 random runs for us. These plots will look something like the plot shown below:
-![Original vs Reconstructed](http://github.com/AutoDQM/autodqm_ml.github.io/blob/gh-pages/figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run321009.png)
+![Original vs Reconstructed](figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run321009.png)
 
 At this point, we may be interested in investigating Run 305040, which had the highest anomaly detection score for both the PCA and the AutoEncoder. To make a plot of the original and reconstructed histograms, we can run
 ```
@@ -427,7 +427,7 @@ python scripts/assess.py
     --debug
 ```
 The plot is shown below:
-![Original vs Reconstructed](http://github.com/AutoDQM/autodqm_ml.github.io/blob/gh-pages/figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run305040.png)
+![Original vs Reconstructed](figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run305040.png)
 Indeed there is some very spiky behavior in the original histogram -- perhaps the PCA and the AutoEncoder are on to something!
 
 Note that the `assess.py` script could be used to simply make plots of the original histograms by specifying `--algorithms ""` (in fact, if no ML algorithms have been added to the `.parquet` file in question, this is the default behavior).
