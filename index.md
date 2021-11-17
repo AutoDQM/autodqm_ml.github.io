@@ -414,3 +414,21 @@ For the plots of original vs. reconstructed histograms, we could supply an argum
 --runs "305040,320007"
 ```
 If no `--runs` argument is given, the script will randomly pick `N` runs to make plots for. `N` is set to 3 by default and can be set to any number by including the argument `--n_runs <N>`. Since we did not provide the `--runs` argument the first time we ran, the script picked 3 random runs for us. These plots will look something like the plot shown below:
+![Original vs Reconstructed](https://github.com/AutoDQM/autodqm_ml.github.io/blob/gh-pages/figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run321009.pdf)
+
+At this point, we may be interested in investigating Run 305040, which had the highest anomaly detection score for both the PCA and the AutoEncoder. To make a plot of the original and reconstructed histograms, we can run
+```
+python scripts/assess.py
+    --input_file "tutorial_addMLAlgos/SingleMuon.parquet"
+    --output_dir "tutorail_addMLAlgos/plots/"
+    --histograms "L1T//Run summary/L1TStage2EMTF/emtfTrackPhi"
+    --algorithms "default_pca,default_ae"
+    --runs "305040"
+    --debug
+```
+The plot is shown below:
+![Original vs Reconstructed](https://github.com/AutoDQM/autodqm_ml.github.io/blob/gh-pages/figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run305040.pdf)
+Indeed there is some very spiky behavior in the original histogram -- perhaps the PCA and the AutoEncoder are on to something!
+
+### 3.1 ROC curves and AUC
+TODO
