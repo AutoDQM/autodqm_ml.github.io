@@ -355,12 +355,23 @@ In general, however, we will want greater control over the specifics of the algo
 
 ### 2.2 Statistical Tests
 TODO
+- [x] ks test for 1d histograms
+- [ ] pull-value test for 2d histograms
+
+:question: Does pull-value test compute mean and std dev for each bin by taking the average over a set of reference runs?
 
 ### 2.3 Principal Component Analysis (PCA)
-TODO
+TOD)
+- [x] 1d histograms
+- [ ] 2d histograms 
+
+:question: For 2d histograms, do we need to do anything more sophisticated than flattening? Trivial to implement if just flattening.
 
 ### 2.4 Autoencoders
 TODO
+- [x] 1d histograms
+- [x] 2d histograms
+- [ ] Make autoencoder training configurable through `json` input to `scripts/train.py`
 
 ## 3. Assessing Performance of ML Algorithms
 Having trained some ML algorithms to perform anomaly detection, we now want to assess their performance. The `scripts/assess.py` script can make a variety of diagnostic plots and print out useful info towards this.
@@ -432,9 +443,11 @@ The plot is shown below:
 
 ![Original vs Reconstructed](figures/L1TRunsummaryL1TStage2EMTFemtfTrackPhi_Run305040.png)
 
-Indeed there is some very spiky behavior in the original histogram -- perhaps the PCA and the AutoEncoder are on to something!
+Indeed there is some very spiky behavior in the original histogram :monocle_face: -- perhaps the PCA and the AutoEncoder are on to something!
 
 Note that the `assess.py` script could be used to simply make plots of the original histograms by specifying `--algorithms ""` (in fact, if no ML algorithms have been added to the `.parquet` file in question, this is the default behavior).
 
 ### 3.1 ROC curves and AUC
 TODO
+- [ ] function for plotting ROC curve and calculating AUC
+- [ ] function for making tables of tpr at fixed fpr and vice versa
