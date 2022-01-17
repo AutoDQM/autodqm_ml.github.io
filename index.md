@@ -31,6 +31,12 @@ Once `conda` is installed and set up, install dependencies with
 conda env create -f environment.yml -p <path to install conda env>
 ```
 
+Some packages cannot be installed via `conda` or take too long and need to be installed with `pip` (after activating your `conda` env above):
+```
+pip install yahist
+pip install tensorflow==2.5
+```
+
 Note: if you are running on `lxplus`, you may run into permissions errors, which may be fixed with:
 ```
 chmod 755 -R /afs/cern.ch/user/s/<your_user_name>/.conda
@@ -323,7 +329,7 @@ WARNING  [PCA : train] A trained PCA already exists for histogram 'L1T//Run     
 
 Next, we can train an AutoEncoder and compare its performance to the PCA. Rather than having two separate output files for the PCA and the AutoEncoder, we can save the results all in one file by using the output from the previous step:
 ```
-python train.py
+python scripts/train.py
     --input_file "tutorial_addMLAlgos/SingleMuon.parquet" 
     --output_dir "tutorial_addMLAlgos"
     --algorithm "autoencoder"
@@ -335,7 +341,7 @@ We can now access both the results of the PCA and the AutoEncoder scores in the 
 
 We can also add the results of statistical tests, like a 1d KS-test, through the `train.py` script:
 ```
-python train.py
+python scripts/train.py
     --input_file "tutorial_addMLAlgos/SingleMuon.parquet" 
     --output_dir "tutorial_addMLAlgos" 
     --algorithm "statistical_tester"
