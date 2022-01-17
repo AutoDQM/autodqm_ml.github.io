@@ -268,7 +268,7 @@ python scripts/train.py
     --histograms "L1T//Run summary/L1TStage2EMTF/emtfTrackPhi,L1T//Run summary/L1TStage2EMTF/emtfTrackEta" 
     --debug
 ```
-The `train.py` script will do the following:
+The `scripts/train.py` script will do the following:
 1. Load histograms from `"output/test_SingleMuon.parquet"`, normalize the histograms, remove any runs with low statistics, and split them into training/testing sets.
 2. Train (and save) PCAs for each of the specified histograms. The saved PCA models will be placed in the `output_dir` with the form `"pca_<hist_name>_<tag>"`.
 3. Use the trained PCAs to create reconstructed histograms for each specified histogram and for each run.
@@ -358,14 +358,10 @@ TODO
 - [x] ks test for 1d histograms
 - [ ] pull-value test for 2d histograms
 
-:question: Does pull-value test compute mean and std dev for each bin by taking the average over a set of reference runs?
-
 ### 2.3 Principal Component Analysis (PCA)
 TOD)
 - [x] 1d histograms
-- [ ] 2d histograms 
-
-:question: For 2d histograms, do we need to do anything more sophisticated than flattening? Trivial to implement if just flattening.
+- [x] 2d histograms 
 
 ### 2.4 Autoencoders
 TODO
@@ -384,7 +380,7 @@ We can make plots for this file with:
 ```
 python scripts/assess.py
     --input_file "tutorial_addMLAlgos/SingleMuon.parquet"
-    --output_dir "tutorail_addMLAlgos/plots/"
+    --output_dir "tutorial_addMLAlgos/plots/"
     --histograms "L1T//Run summary/L1TStage2EMTF/emtfTrackPhi"
     --algorithms "default_pca,default_ae"
     --debug
