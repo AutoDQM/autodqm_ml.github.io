@@ -36,12 +36,13 @@ Some packages cannot be installed via `conda` or take too long and need to be in
 pip install yahist
 pip install tensorflow==2.5
 ```
+Note: if you are running on `lxplus`, it may also be advisable to specify the installation location in your work or `/eos` area by including the installation path in the above command with `-p /afs/cern.ch/work/...`, as the resulting environment will be several GB in size.
 
 Note: if you are running on `lxplus`, you may run into permissions errors, which may be fixed with:
 ```
 chmod 755 -R /afs/cern.ch/user/s/<your_user_name>/.conda
 ```
-and then rerunning the command to create the `conda` env. The resulting `conda env` can also be several GB in size, so it may also be advisable to specify the installation location in your work area if running on `lxplus`, i.e. running the `conda env create` command with `-p /afs/cern.ch/work/...`.
+and then rerunning the command to create the `conda` env.
 
 **3. Install autodqm-ml**
 
@@ -194,6 +195,8 @@ WARNING  [DataFetcher : load_data] Problem loading file 'root://eoscms.cern.ch//
 
 When it finishes (took just under 30 minutes for me), this will give us an output file `tutorial/SingleMuon.parquet` which contains all of the specified histograms.
 
+Note: if you are trying to grab a large number of histograms, the resulting `parquet` file may be very large and you may run out of memory when merging files. If you run into this issue, you can work around it by splitting up your `contents` config file into several files and running `fetch_data.py` once for each one.
+
 The `parquet` [format](https://parquet.apache.org/) provides a highly compressed columnar data representation which is an efficient way to store our histograms.
 
 We can explore this file in the `python` interpreter. We could load it as a `pandas` dataframe:
@@ -339,7 +342,13 @@ python scripts/train.py
 ```
 We can now access both the results of the PCA and the AutoEncoder scores in the output file. In this way, it is possible to chain together the training of multiple different ML algorithms and have results stored in a common place.
 
-We can also add the results of statistical tests, like a 1d KS-test, through the `train.py` script:
+Note that, currently, for autoencoders the default behavior when passing multiple histograms to `train.py` is to train a single autoencoder for all of the histograms, with an architecture as depicted below:
+
+![Autoencoder architecture](figures/autoencoder_arch.png)
+
+If you wish to instead train a single autoencoder for each histogram (as is the default behavior for PCAs), you can do this by running `scripts/train.py` once for each histogram. In the future, options to do this from the command line and avoid running `scripts/train.py` multiple times will be implemented.
+
+We can also add the results of statistical tests, like a 1d KS-test, through the `scripts/train.py` script:
 ```
 python scripts/train.py
     --input_file "tutorial_addMLAlgos/SingleMuon.parquet" 
@@ -357,23 +366,16 @@ A few options for specifying the details of the algorithms are provided through 
 - `--n_components` specify the dimensionality of the latent space used for reconstructing histograms (only applicable for ML algorithms)
 - `--reference` specify which run should be used as a reference (only applicable for statistical tests)
 
-In general, however, we will want greater control over the specifics of the algorithms we train. For example, we may want to vary the DNN architecture and training strategy for AutoEncoders. This can be achieved by specifying a `json` file for the `--algorithms` CLI.
+In general, however, we will want greater control over the specifics of the algorithms we train. For example, we may want to vary the DNN architecture and training strategy for AutoEncoders. 
+
+In the future, this will be achieved by specifying a `json` file for the `--algorithms` CLI. Implementation in progress.
 
 ### 2.2 Statistical Tests
-TODO
-- [x] ks test for 1d histograms
-- [ ] pull-value test for 2d histograms
-
+Advanced options - in progress
 ### 2.3 Principal Component Analysis (PCA)
-TOD)
-- [x] 1d histograms
-- [x] 2d histograms 
-
+Advanced options - in progress
 ### 2.4 Autoencoders
-TODO
-- [x] 1d histograms
-- [x] 2d histograms
-- [ ] Make autoencoder training configurable through `json` input to `scripts/train.py`
+Advanced options - in progress
 
 ## 3. Assessing Performance of ML Algorithms
 Having trained some ML algorithms to perform anomaly detection, we now want to assess their performance. The `scripts/assess.py` script can make a variety of diagnostic plots and print out useful info towards this.
@@ -449,7 +451,6 @@ Indeed there is some very spiky behavior in the original histogram :monocle_face
 
 Note that the `assess.py` script could be used to simply make plots of the original histograms by specifying `--algorithms ""` (in fact, if no ML algorithms have been added to the `.parquet` file in question, this is the default behavior).
 
-### 3.1 ROC curves and AUC
-TODO
-- [ ] function for plotting ROC curve and calculating AUC
-- [ ] function for making tables of tpr at fixed fpr and vice versa
+Planned features in progress:
+- functionality to plot ROC curves and calculate AUC for algorithms when labeled data is available
+- functionality to make tables of true positive rate at fixed false positive rate and vice versa when labeled data is available
