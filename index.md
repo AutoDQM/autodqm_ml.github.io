@@ -378,6 +378,48 @@ This can be specified by adding the flag
 ```
 when running `train.py`.
 
+There are a number of hyperparameters that are configurable for autoencoders.
+At the time of writing, these hyperparameters and their default options are:
+```json
+{
+        "batch_size" : 16,
+        "val_batch_size" : 1024,
+        "n_epochs" : 1000,
+        "early_stopping" : True,
+        "early_stopping_rounds" : 3,
+        "n_hidden_layers" : 2,
+        "n_nodes" : 25,
+        "n_components" : 3,
+        "kernel_1d" : 3,
+        "kernel_2d" : 3,
+        "strides_1d" : 1,
+        "strides_2d" : 1,
+        "dropout" : 0.0,
+        "batch_norm" : False,
+        "n_filters" : 8
+}
+``` 
+
+These can be changed from their default options through the use of a `json` file input to `scripts/train.py`, where new values should be specified in a field `"config"`.
+Suppose we want to increase the size of the latent space (`"n_components"`) and the number of nodes in the dense layers leading up to the latent representation (`"n_nodes"`).
+Our `json` file would then look like this:
+```json
+{
+    "name" : "autoencoder",
+    "config" : {
+        "n_nodes" : 25,
+        "n_components" : 4
+    }
+}
+```
+If we saved this in a file `ae_configs/my_config.json`, we would then pass this to `scripts/train.py` as:
+```
+python scripts/train.py --algorithm "ae_configs/my_config.json"
+```
+
+Note that any hyperparameters that are not specified within the `"config"` field will retain their default values, which are defined in `autodqm_ml.algorithms.autoencoder.DEFAULT_OPTIONS`.
+
+TODO: explanation of various hyperparameters, recommendations for different scenarios.
 
 ## 3. Assessing Performance of ML Algorithms
 Having trained some ML algorithms to perform anomaly detection, we now want to assess their performance. The `scripts/assess.py` script can make a variety of diagnostic plots and print out useful info towards this.
