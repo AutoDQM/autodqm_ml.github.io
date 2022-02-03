@@ -188,7 +188,9 @@ WARNING  [DataFetcher : load_data] Problem loading file 'root://eoscms.cern.ch//
          file.
 ```
 
-When it finishes (took just under 30 minutes for me), this will give us an output file `tutorial/SingleMuon.parquet` which contains all of the specified histograms.
+When it finishes, this will give us an output file `tutorial/SingleMuon.parquet` which contains all of the specified histograms.
+
+Note: `scripts/fetch_data.py` tends to run much faster on `lxplus` as its much quicker to read files from `/eos` on `lxplus` than from other sites (especially if they are far away).
 
 Note: if you are trying to grab a large number of histograms, the resulting `parquet` file may be very large and you may run out of memory when merging files. If you run into this issue, you can work around it by splitting up your `contents` config file into several files and running `fetch_data.py` once for each one.
 
