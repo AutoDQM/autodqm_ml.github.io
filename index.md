@@ -264,7 +264,7 @@ For example, assume we have run `scripts/fetch_data.py` as in the previous secti
 ```
 tutorial/SingleMuon.parquet
 ```
-We can train a PCA on some of the histograms in this file with:
+We can train PCAs on some of the histograms in this file with:
 ```
 python scripts/train.py
     --input_file "tutorial/SingleMuon.parquet" 
@@ -327,7 +327,7 @@ WARNING  [PCA : train] A trained PCA already exists for histogram 'L1T//Run     
          or delete the old outputs.
 ```
 
-Next, we can train an AutoEncoder and compare its performance to the PCA. Rather than having two separate output files for the PCA and the AutoEncoder, we can save the results all in one file by using the output from the previous step:
+Next, we can train AutoEncoders and compare their performance to the PCAs. Rather than having two separate output files for the PCA and the AutoEncoder, we can save the results all in one file by using the output from the previous step:
 ```
 python scripts/train.py
     --input_file "tutorial_addMLAlgos/SingleMuon.parquet" 
@@ -338,12 +338,6 @@ python scripts/train.py
     --debug
 ```
 We can now access both the results of the PCA and the AutoEncoder scores in the output file. In this way, it is possible to chain together the training of multiple different ML algorithms and have results stored in a common place.
-
-Note that, currently, for autoencoders the default behavior when passing multiple histograms to `train.py` is to train a single autoencoder for all of the histograms, with an architecture as depicted below:
-
-![Autoencoder architecture](figures/autoencoder_arch.png)
-
-If you wish to instead train a single autoencoder for each histogram (as is the default behavior for PCAs), you can do this by running `scripts/train.py` once for each histogram. In the future, options to do this from the command line and avoid running `scripts/train.py` multiple times will be implemented.
 
 We can also add the results of statistical tests, like a 1d KS-test, through the `scripts/train.py` script:
 ```
@@ -372,7 +366,18 @@ Advanced options - in progress
 ### 2.3 Principal Component Analysis (PCA)
 Advanced options - in progress
 ### 2.4 Autoencoders
-Advanced options - in progress
+For autoencoders, the default behavior when passing multiple histograms to `train.py` is to train one autoencoder for each of the histograms (same behavior as PCAs).
+However, autoencoders have the ability to reconstruct multiple outputs simultaneously.
+There is also an option to train a single autoencoder on all of the histograms you pass, with an architecture as depicted below:
+
+![Autoencoder architecture](figures/autoencoder_arch.png)
+
+This can be specified by adding the flag
+```
+--autoencoder_mode "simultaneous"
+```
+when running `train.py`.
+
 
 ## 3. Assessing Performance of ML Algorithms
 Having trained some ML algorithms to perform anomaly detection, we now want to assess their performance. The `scripts/assess.py` script can make a variety of diagnostic plots and print out useful info towards this.
