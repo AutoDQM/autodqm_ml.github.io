@@ -490,7 +490,10 @@ INFO              Run number : 320007, Anomaly Score : 4.06e-04                 
 ```
 
 The script will next make some summary plots:
-    - Histograms of the SSE for each histogram (separate plots for runs used in training/testing)
+    - Histograms of the SSE for each input histogram
+        - SSE plots are available in algorithm basis and in a runs basis
+        - algorithm basis: plot SSE distribution for each algorithm on the same axes. Plots made separately for train/test set and (if labeled runs are present) good/anomalous runs.
+        - runs basis: plot SSE distribution for each set of runs (train/test, good/anomalous) on the same axes. Plots made separately for each algorithm.
     - Original vs. reconstructed histograms
 
 Here is the SSE histogram for `emtfTrackPhi`, shown for testing events:
@@ -523,10 +526,33 @@ Indeed there is some very spiky behavior in the original histogram :monocle_face
 
 Note that the `assess.py` script could be used to simply make plots of the original histograms by specifying `--algorithms ""` (in fact, if no ML algorithms have been added to the `.parquet` file in question, this is the default behavior).
 
-If the directory you specified for `--output_dir` is accessible from a web browser, you can also specify the option `--make_webpage` to get a browsable + searchable webpage of your plots like the one shown below.
+### Quantitative Assessment of Anomaly Detection Algorithms
+So far, the outputs we have examined from `scripts/assess.py` are mostly qualitative -- we have seen comparisons of the reconstruction error (SSE) for different algorithms, but how do we tell which algorithm more effectively identifies anomalies?
+
+If labeled runs are present in your `parquet` file (i.e. if you specified a list of `"bad_runs"` and/or `"good_runs"` in your datasets `json` when running `scripts/fetch_data.py`), `assess.py` will do the folllowing:
+    - Calculate and plot ROC curves and AUC, with statistical uncertainties, for each histogram x algorithm
+    - Calculate a "false alarm rate" for fixed anomaly detection efficiency points (i.e. false positive rate at fixed true positive rate) and print them out to a table which can be pasted into a LaTeX environment.
+
+Examples of ROC curves for a PCA and Autoencoder trained on the `"SegmentshSGlobalTheta"` histogram from the CSC subsystem are shown below:
+
+![ROC Curve](figures/CSCRunsummaryCSCOfflineMonitorSegmentshSGlobalTheta_roc.png)
+
+where the uncertainty bands represent the +/- 1 standard deviation statistical uncertainty, derived by recalculating the ROC curves and AUC with bootstrap resampling.
+We can interpret this plot in the following way: the x-axis gives the fraction of events which are not anomalous ("good") with an SSE score greater than or equal to some threshold and the y-axis shows the corresponding fraction of events which **are** anomalous that have an SSE score greater than or equal to that same threshold.
+The performance can be summarized into a single number by integrating each curve along the x-axis.
+This number is (creatively) called the "area under the curve" and usually abbreviated as AUC.
+The AUC can be physically interpreted as the fraction of pairs of positive/negative instances (i.e. pairs of an anomalous run and a good run) which are correctly classified (i.e. anomalous run has higher SSE than good run).
+There are many different names that people use for the x- and y-axes, see the [wikipedia](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) page for more info. 
+
+AUC is a useful metric, but in practice, we may want to use an algorithm in the following context:
+- I want to catch 95% (arbitrary) of anomalies. What fraction of good runs will ring a false alarm bell?
+
+The following table is useful for answering this type of question:
+
+![Efficiency Table](figures/autodqm_eff_table.png)
+
+Finally, if the directory you specified for `--output_dir` is accessible from a web browser, you can also specify the option `--make_webpage` to get a browsable + searchable webpage of your plots like the one shown below.
 
 ![Plot Webpage Example](figures/webpage_example.png)
 
-Planned features in progress:
-- functionality to plot ROC curves and calculate AUC for algorithms when labeled data is available
-- functionality to make tables of true positive rate at fixed false positive rate and vice versa when labeled data is available
+
