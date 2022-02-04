@@ -327,6 +327,8 @@ WARNING  [PCA : train] A trained PCA already exists for histogram 'L1T//Run     
          or delete the old outputs.
 ```
 
+You can also check any of the settings that were used for a given run of `scripts/train.py` through the `json` file that is written to `output_dir`.
+
 Next, we can train AutoEncoders and compare their performance to the PCAs. Rather than having two separate output files for the PCA and the AutoEncoder, we can save the results all in one file by using the output from the previous step:
 ```
 python scripts/train.py
@@ -361,7 +363,7 @@ A few options for specifying the details of the algorithms are provided through 
 
 In general, however, we will want greater control over the specifics of the algorithms we train. For example, we may want to vary the DNN architecture and training strategy for AutoEncoders. 
 
-All command line arguments available to `scripts/train.py` can be alternatively specified through a `json` file.
+All command line arguments available to `scripts/train.py` can be alternatively specified through a `json` file (except `--debug`).
 The example above for training autoencoders could be specified through a `json` file as:
 ```json
 {
@@ -369,8 +371,7 @@ The example above for training autoencoders could be specified through a `json` 
     "input_file" : "tutorial_addMLAlgos/SingleMuon.parquet",
     "output_dir" : "tutorial_addMLAlgos",
     "tag" : "default_ae",
-    "histograms" : "L1T//Run summary/L1TStage2EMTF/emtfTrackPhi,L1T//Run summary/L1TStage2EMTF/emtfTrackEta",
-    "debug" : True
+    "histograms" : "L1T//Run summary/L1TStage2EMTF/emtfTrackPhi,L1T//Run summary/L1TStage2EMTF/emtfTrackEta"
 }
 ```
 Saving the above to a file `config.json`, we would then run the training as:
@@ -521,6 +522,10 @@ The plot is shown below:
 Indeed there is some very spiky behavior in the original histogram :monocle_face: -- perhaps the PCA and the AutoEncoder are on to something!
 
 Note that the `assess.py` script could be used to simply make plots of the original histograms by specifying `--algorithms ""` (in fact, if no ML algorithms have been added to the `.parquet` file in question, this is the default behavior).
+
+If the directory you specified for `--output_dir` is accessible from a web browser, you can also specify the option `--make_webpage` to get a browsable + searchable webpage of your plots like the one shown below.
+
+![Plot Webpage Example](figures/webpage_example.png)
 
 Planned features in progress:
 - functionality to plot ROC curves and calculate AUC for algorithms when labeled data is available
