@@ -338,6 +338,8 @@ python scripts/train.py
     --debug
 ```
 We can now access both the results of the PCA and the AutoEncoder scores in the output file. In this way, it is possible to chain together the training of multiple different ML algorithms and have results stored in a common place.
+By default, one autoencoder is trained for each histogram specified for `scripts/train.py`.
+To see how to train a single autoencoder for all histograms, see Sec. 2.4. 
 
 We can also add the results of statistical tests, like a 1d KS-test, through the `scripts/train.py` script:
 ```
@@ -359,7 +361,31 @@ A few options for specifying the details of the algorithms are provided through 
 
 In general, however, we will want greater control over the specifics of the algorithms we train. For example, we may want to vary the DNN architecture and training strategy for AutoEncoders. 
 
-In the future, this will be achieved by specifying a `json` file for the `--algorithms` CLI. Implementation in progress.
+All command line arguments available to `scripts/train.py` can be alternatively specified through a `json` file.
+The example above for training autoencoders could be specified through a `json` file as:
+```json
+{
+    "name" : "autoencoder",
+    "input_file" : "tutorial_addMLAlgos/SingleMuon.parquet",
+    "output_dir" : "tutorial_addMLAlgos",
+    "tag" : "default_ae",
+    "histograms" : "L1T//Run summary/L1TStage2EMTF/emtfTrackPhi,L1T//Run summary/L1TStage2EMTF/emtfTrackEta",
+    "debug" : True
+}
+```
+Saving the above to a file `config.json`, we would then run the training as:
+```
+python scripts/train.py --algorithm "config.json"
+```
+
+Note that if any arguments are specified BOTH through a `json` config AND the command line, precedence will be given to the command line version.
+For example,
+```
+python scripts/train.py --algorithm "config.json" --tag "some_other_tag"
+```
+would give our autoencoders the tag "some_other_tag", and NOT "default_ae" (as specified in `config.json`).
+
+We will see in Sec. 2.4 how the `json`-style of training allows for specification of advanced options.
 
 ### 2.2 Statistical Tests
 Advanced options - in progress
@@ -407,9 +433,10 @@ Our `json` file would then look like this:
 {
     "name" : "autoencoder",
     "config" : {
-        "n_nodes" : 25,
+        "n_nodes" : 50,
         "n_components" : 4
-    }
+    },
+    "tag" : "ae_increased_nodes"
 }
 ```
 If we saved this in a file `ae_configs/my_config.json`, we would then pass this to `scripts/train.py` as:
