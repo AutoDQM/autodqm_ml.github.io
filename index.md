@@ -1,3 +1,11 @@
+# Introduction
+Welcome to the AutoDQM ML user tutorial! The [AutoDQM_ML](https://github.com/AutoDQM/AutoDQM_ML) repository is a toolkit for developing machine learning algorithms to detect anomalies in offline DQM histograms.
+
+With this tool, you can do the following:
+1. Grab data from DQM histograms of interest on `/eos` and write to a single `pandas dataframe`.
+2. Train machine learning algorithms that can be used for anomaly detection.
+3. Compare the performance of these ML algorithms and statistical tests.
+
 Table of Contents
 =================
 
@@ -14,14 +22,6 @@ Table of Contents
       * [Quantitative Assessment of Anomaly Detection Algorithms](#quantitative-assessment-of-anomaly-detection-algorithms)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
-# Introduction
-Welcome to the AutoDQM ML user tutorial! The [AutoDQM_ML](https://github.com/AutoDQM/AutoDQM_ML) repository is a toolkit for developing machine learning algorithms to detect anomalies in offline DQM histograms.
-
-With this tool, you can do the following:
-1. Grab data from DQM histograms of interest on `/eos` and write to a single `pandas dataframe`.
-2. Train machine learning algorithms that can be used for anomaly detection.
-3. Compare the performance of these ML algorithms and statistical tests.
 
 # Setup
 **1. Clone repository**
