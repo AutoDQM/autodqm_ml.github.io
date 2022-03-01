@@ -1,3 +1,20 @@
+Table of Contents
+=================
+
+* [Introduction](#introduction)
+* [Setup](#setup)
+* [Using the tool](#using-the-tool)
+   * [1. Fetching Data](#1-fetching-data)
+   * [2. Training ML Algorithms](#2-training-ml-algorithms)
+      * [2.1 Introduction](#21-introduction)
+      * [2.2 Statistical Tests](#22-statistical-tests)
+      * [2.3 Principal Component Analysis (PCA)](#23-principal-component-analysis-pca)
+      * [2.4 Autoencoders](#24-autoencoders)
+   * [3. Assessing Performance of ML Algorithms](#3-assessing-performance-of-ml-algorithms)
+      * [Quantitative Assessment of Anomaly Detection Algorithms](#quantitative-assessment-of-anomaly-detection-algorithms)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # Introduction
 Welcome to the AutoDQM ML user tutorial! The [AutoDQM_ML](https://github.com/AutoDQM/AutoDQM_ML) repository is a toolkit for developing machine learning algorithms to detect anomalies in offline DQM histograms.
 
