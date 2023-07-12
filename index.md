@@ -45,10 +45,15 @@ You can then set `conda` to be available upon login with
 
 Once `conda` is installed and set up, install dependencies with
 ```
-conda env create -f environment.yml -p <path to install conda env>
+conda env create -f environment.yml
 ```
 
-Some packages cannot be installed via `conda` or take too long and need to be installed with `pip` (after activating your `conda` env above):
+Then activate your environment to finish installing all packages.
+```
+conda activate autodqm-ml
+```
+
+Some packages cannot be installed via `conda` or take too long and need to be installed with `pip`.
 ```
 pip install yahist
 pip install tensorflow==2.5
