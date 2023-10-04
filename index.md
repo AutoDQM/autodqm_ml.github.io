@@ -74,6 +74,7 @@ Install with:
 ```
 pip install -e .
 ```
+*Note: if you were to edit the architecture of the ML models (e.g. autodqm_ml/algorithms/anomaly_detection_algorithm.py, pca.py, etc.), you may have to "recompile" the code again using the above command.*
 
 Once your setup is installed, you can activate your python environment with
 ```
